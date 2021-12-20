@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head><link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
+ </head>
+  <body>
+    <h1>Citas de Odontología via web</h1>  
+    <p>
+      <div>  
+        <form method="post" action="{{vink}}" target="_blank">
+          <input name="nombre" type="text" placeholder="Nombre" required>
+          <input name="apellido" type="text" placeholder="Apellido" required>
+          <input name="email" type="text" placeholder="E-mail" required>
+          <input name="telefono" type="text" placeholder="Telefono" required>
+          <input name="nombre" type="text" placeholder="Nombre" required>
+          <form action="" method='POST' name="myform">
+            {{ form.csrt_token }}
+            {{ form.startdate.label }} {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}
+            {{ form.enddate.label }} {{form.enddate(class='datepicker')}} {{form.hidden_tag()}}
+            <p>
+            {{form.submit()}}
+            </p>
+        </form>
+          <span class="input-group-btn"><button class="btn btn-primary" type="submit" >request</button></span>
+        </form>    
+      </div>
+    </p>   
+  </body>
+</html>
+
+
