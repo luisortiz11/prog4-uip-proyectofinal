@@ -2,10 +2,11 @@ from flask import Flask, redirect, url_for, render_template, session
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
 from wtforms.fields.simple import TextField
-from wtforms.validators import DataRequired
 from wtforms import validators, SubmitField
 import pymongo 
-import json 
+import datetime
+
+
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ class InfoForm(FlaskForm):
     telefono = TextField('Telefono:', validators=(validators.DataRequired(),))
     correo = TextField('Correo:', validators=(validators.DataRequired(),))
     startdate = DateField('Fecha:', format='%Y-%m-%d', validators=(validators.DataRequired(),))
-    submit = SubmitField('Submit')
+    submit = SubmitField('Enviar')
 
 # Establece conexion con servidor MongoDB
 con = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -36,13 +37,12 @@ def menu():
         session['correo'] = form.correo.data
         session['startdate'] = form.startdate.data
         col.insert_one({'nombre': session['nombre'], 'apellido': session['apellido'], 
-        'telefono': session['telefono'], 'correo': session['correo']})
+        'telefono': session['telefono'], 'correo': session['correo'], 'fecha' : datetime.datetime.combine(session['startdate'], datetime.time.min)})
         return redirect('/cita')
     return render_template('menu.html', form=form)
 
 @app.route('/cita' , methods=[ 'GET','POST'])
 def response():
-    
     cursor = col.find({})
     id = 0
     for el in cursor:
@@ -53,5 +53,4 @@ def response():
 
 
 if __name__ == '__main__':
-
    app.run(debug = True)
