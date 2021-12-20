@@ -1,17 +1,23 @@
 from flask import Flask, redirect, url_for, render_template, session
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
+from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 from wtforms import validators, SubmitField
 import pymongo 
+import json 
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '#$%^&*'
+app.config['SECRET_KEY'] = "123*"
+app.config['MONGO_URI']= 'mongodb://localhost:27017/final'
 
 class InfoForm(FlaskForm):
-    startdate = DateField('Start Date', format='%Y-%m-%d', validators=(validators.DataRequired(),))
-    enddate = DateField('End Date', format='%Y-%m-%d', validators=(validators.DataRequired(),))
+    nombre = TextField('Nombre:', validators=(validators.DataRequired(),))
+    apellido = TextField('Apellido:', validators=(validators.DataRequired(),))
+    telefono = TextField('Telefono:', validators=(validators.DataRequired(),))
+    correo = TextField('Correo:', validators=(validators.DataRequired(),))
+    startdate = DateField('Fecha:', format='%Y-%m-%d', validators=(validators.DataRequired(),))
     submit = SubmitField('Submit')
 
 # Establece conexion con servidor MongoDB
@@ -19,40 +25,33 @@ con = pymongo.MongoClient("mongodb://localhost:27017/")
 db = con["final"] # Base de datos
 col = db["citas"] # Coleccion
 
-app = Flask(__name__)
-
-
-def res(a):
-    query = col.find_one({"key": a})
-    return query
 
 @app.route('/' , methods=[ 'GET','POST'])
 def menu():
     form = InfoForm()
     if form.validate_on_submit():
+        session['nombre'] = form.nombre.data
+        session['apellido'] = form.apellido.data
+        session['telefono'] = form.telefono.data
+        session['correo'] = form.correo.data
         session['startdate'] = form.startdate.data
-        session['enddate'] = form.enddate.data
-        return redirect('date')
+        col.insert_one({'nombre': session['nombre'], 'apellido': session['apellido'], 
+        'telefono': session['telefono'], 'correo': session['correo']})
+        return redirect('/cita')
     return render_template('menu.html', form=form)
 
+@app.route('/cita' , methods=[ 'GET','POST'])
+def response():
+    
+    cursor = col.find({})
+    id = 0
+    for el in cursor:
+        citas = {}
+        citas[id] = el
+        id += 1 
+    return render_template('response.html', citas = list(citas.values())[-1])
 
-@app.route('/api/info/',  methods=['GET'])
-def info():
-    return jsonify({"Informacion general" : dict(zip(titulo[:3], pan[:3]))} )
- 
-@app.route('/api/año/<int:number>/',  methods=['GET'])
-def vacunas(number):
-    query = res(str(number))
-    return jsonify({"Vacunaciones" : query})
-
-@app.route('/api/datos/',  methods=['GET'])
-def datos():
-    dk = {}
-    for i in col.find({},{"_id": 0, "key": 1, "value": 1}):
-        dk[i["key"]] = i["value"]
-    return jsonify({"Vacunaciones por año": dk})
 
 if __name__ == '__main__':
-   app.debug = True
-   app.run()
+
    app.run(debug = True)
