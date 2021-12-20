@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <title>Clinica Peralta</title>
+  </head>
+  <body>
+     
+      <div class="box__home">
+        <header class="header__home">
+          <div class="wrap">
+          <div class="headerBox">
+
+          <div><p class="clinicName">Clinica Peralta</p></div>
+          <div class="links">
+            <a href="/">Agendar Cita</a><a href="/mostrarcitas">Ver Citas</a
+            ><a href="#">Cancelar cita</a>
+          </div>
+        </div>
+      </div>
+        </header>
+        <div class="wrap">
+        <main class="main">
+          <div>
+            
+            <div class="formSection">
+              <h1 class="formTitle">Agenda tu cita con nosotros</h1>
+              <form class="formBox" method="POST">
+                <div class="nameform">
+                  <div class="form">
+                    <label for="">Nombre</label>
+                    <input name="nombre" required type="text" />
+                  </div>
+
+                  <div class="form">
+                    <label for="">Apellido</label>
+                    <input name="apellido" required type="text" />
+                  </div>
+                </div>
+
+                <div class="form">
+                  <label for="">Cedula</label>
+                  <input name="cedula" required type="text" />
+                </div>
+                <div class="form">
+                  <label for="">Telefono</label>
+                  <input name="telefono" required type="text" />
+                </div>
+                <div class="form">
+                  <label for="">Fecha de cita</label>
+                  <input name="fecha" required type="date" />
+                </div>
+                <button type="submit" class="submitBtn">Enviar Cita</button>
+              </form>
+            </div>
+          </div>
+          <div class="imgBox">
+            <img src="../static/ilustracion.svg" alt="" />
+          </div>
+        </main>
+      </div>
+     
+   
+  </body>
+</html>

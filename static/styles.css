@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+
+.box__home{
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content 1fr;
+   
+}
+
+
+*, *::after,*::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    
+    font-family: 'Lato', sans-serif;
+     background-color: #F9F8FB;
+     font-size: 1.6rem;
+    
+}
+
+.header__home{
+   
+    background-color: #6E3CBC;
+    padding: 1.5rem 2rem;
+    color: #F9F8FB;
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+
+    
+}
+
+.headerBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    column-gap: 2.5rem;
+}
+
+.links a {
+    text-decoration: none;
+    color: #F9F8FB;
+}
+
+.wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.clinicName{
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.main{
+    grid-row: 2 / 3;
+    height: 100%;
+    display: flex;
+}
+
+
+.formTitle{
+    font-size: 4.5rem;
+    color: #211238;
+    padding: 3rem 0;
+
+}
+
+.formBox{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+  
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form label{
+    color: #211238;
+}
+
+.form input{
+    border: 2px solid #926DCD;
+    border-radius: 6px;
+    height: 4rem;
+    width: 50%;
+    outline: none;
+    padding:  0 1rem;
+    transition: all 300ms;
+    color: #90899C;
+    font-size: 1.7rem;
+}
+.form input:focus{
+    color: #211238;
+    border-color: #6E3CBC;
+  
+}
+
+.imgBox{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ .nameform{
+    display: flex;
+
+}
+
+.nameform > .form > input{
+    width: 80% !important;
+}
+
+.formSection{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formBox button{
+    border: none;
+    background-color: #6E3CBC;
+    color: #F9F8FB;
+    width: 50%;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border-radius: 6px;
+    font-size: 1.8rem;
+    transition: all 300ms;
+    cursor: pointer;
+}
+
+.formBox button:hover{
+    background-color: #926DCD;
+
+}
+
+.tableHeader{
+    display: flex;
+    column-gap: 0.5rem;
+}
+
+.tableHeader > h3 {
+    flex-basis: 20%;
+    background-color: #6E3CBC;
+    text-align: center;
+    color: #F9F8FB;
+    padding: 1rem;
+    border-radius: 6px;
+
+}
+
+.tableBox{
+    margin: 0 auto;
+}
+
+.valuesTable{
+    display: flex;
+}
+
+.mainTable{
+    grid-row: 2 / 3;
+    height: 100%;
+}
+
+.table{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+
+}
+
+.table h3{
+    background-color: #6E3CBC;
+    text-align: center;
+    color: #F9F8FB;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.table p{
+    background-color: #EEE8F7;
+    color: #211238;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.nombreHeader{
+    grid-column: 1 / 2;
+}
+.apellidoHeader{
+    grid-column: 2 / 3;
+}
+.cedulaHeader{
+    grid-column: 3 / 4;
+}
+.telefonoHeader{
+    grid-column: 4 / 5;
+}
+.fechaHeader{
+    grid-column: 5 / 6;
+}
+
+
+.nombreColumn{
+    grid-column: 1 / 2;
+}
+.apellidoColumn{
+    grid-column: 2 / 3;
+}
+.cedulaColumn{
+    grid-column: 3 / 4;
+}
+.telefonoColumn{
+    grid-column: 4 / 5;
+}
+.fechaColumn{
+    grid-column: 5 / 6;
+}
+
