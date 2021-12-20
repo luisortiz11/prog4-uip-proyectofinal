@@ -17,18 +17,12 @@
         
         <div id="blueBox"> 
           <div id="header"></div>
-          <div class="contentTitle">Agenda tu cita</div>
+          <div class="contentTitle">Busca tu cita</div>
             <div class="pageContent">
               <form action="" method='POST' name="myform">
-                {{ form.csrt_token }}
-                
-                <p>{{ form.nombre.label }} {{form.nombre(class='text')}} {{form.hidden_tag()}}</p>
-                <p>{{ form.apellido.label }} {{form.apellido(class='text')}} {{form.hidden_tag()}}</p>
-                <p>{{ form.telefono.label }} {{form.telefono(class='text')}} {{form.hidden_tag()}}</p>
+                {{ form.csrt_token }}                
                 <p>{{ form.correo.label }} {{form.correo(class='text')}} {{form.hidden_tag()}}</p>
-                <p>{{ form.startdate.label }} {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}</p>
-              
-                
+
                 <p>
                 {{form.submit()}}
                 </p>
