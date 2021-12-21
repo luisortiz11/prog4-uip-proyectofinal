@@ -67,7 +67,7 @@ def response():
     
     respuesta = "Hola {} {}, se ha registrado la cita satisfactoriamente para el dia {}, te enviaremos un correo de confirmacion a {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(citas[id-1]['nombre'], citas[id-1]['apellido'], citas[id-1]['fecha'], citas[id-1]['correo'],citas[id-1]['telefono'] )
     msg = Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = citas[id-1]['correo'].split())
-    msg.body = "Confirmación de cita"
+    msg.body = "Confirmación de cita," + respuesta
     mail.send(msg)
 
     msg2 = Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split())
@@ -91,7 +91,7 @@ def busca():
     respuesta = "Hola {} {}, la cita es el dia {}, te enviaremos un correo de confirmacion a {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(citas['nombre'], citas['apellido'], citas['fecha'], citas['correo'],citas['telefono'] )
     
     msg = Message('Cita para Odontología', sender =   'smiledr507@gmail.com', recipients = correo.split())
-    msg.body = "Confirmación de cita"
+    msg.body = "Confirmación de cita" + respuesta
     mail.send(msg)
 
     msg2 = Message('Cita para Odontología', sender =   'smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split())
