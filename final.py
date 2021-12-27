@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, session
+from flask import Flask, redirect, render_template, session, copy_current_request_context, current_app
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
 from wtforms.fields.simple import TextField
@@ -6,7 +6,7 @@ from wtforms import validators, SubmitField
 from flask_mail import Mail, Message
 import pymongo 
 import datetime
-from threading import Thread
+import threading
 
 
 app = Flask(__name__)
@@ -39,10 +39,18 @@ con = pymongo.MongoClient("mongodb://localhost:27017/")
 db = con["final"] # Base de datos
 col = db["citas"] # Coleccion
 
+
 def msg_send(msg,msg_body):
     msg = msg
     msg.body = msg_body
-    return mail.send(msg)
+    @copy_current_request_context
+    def async_email(msg):
+        mail.send(msg)
+    thr = threading.Thread(name='mailer',target=async_email, args=(msg,))
+    thr.daemon=True
+    thr.start()
+    
+
 
 @app.route('/' , methods=[ 'GET','POST'])
 def menu():
@@ -67,8 +75,8 @@ async def response():
     fecha = session.get('startdate')
     
     respuesta = "Hola {} {}, se ha registrado la cita satisfactoriamente para el dia {}, te enviaremos un correo de confirmacion a {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(nombre,apellido,fecha, correo,telefono )
-    #msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita," + respuesta)
-    #msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(fecha, nombre, apellido,telefono ))
+    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita," + respuesta)
+    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(fecha, nombre, apellido,telefono ))
 
     return render_template('response.html', citas = respuesta)
 
@@ -87,12 +95,12 @@ def busca():
     correo = session.get('correobusca')
     citas = col.find_one({"correo": correo})
     respuesta = "Hola {} {}, la cita es el dia {}, te enviaremos un correo de confirmacion a {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(citas['nombre'], citas['apellido'], citas['fecha'], citas['correo'],citas['telefono'] )
-    #msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita" + respuesta)
-    #msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(citas['fecha'], citas['nombre'], citas['apellido'], citas['telefono'] ))
+    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita" + respuesta)
+    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(citas['fecha'], citas['nombre'], citas['apellido'], citas['telefono'] ))
 
     return render_template('response.html', citas = respuesta)
 
 
 if __name__ == '__main__':
-   app.run(debug = True)
+   app.run(debug = True, threaded=True)
 
