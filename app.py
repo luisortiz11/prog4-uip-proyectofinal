@@ -94,9 +94,9 @@ def qery():
 def busca():
     correo = session.get('correobusca')
     citas = col.find_one({"correo": correo})
-    respuesta = "Hola {} {}, la cita es el dia {}, te enviaremos un correo de confirmacion a {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(citas['nombre'], citas['apellido'], citas['fecha'], citas['correo'],citas['telefono'] )
-    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita" + respuesta)
-    msg_send(Message('Cita para Odontología', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(citas['fecha'], citas['nombre'], citas['apellido'], citas['telefono'] ))
+    respuesta = "Hola {} {}, tu cita es el dia {}. Posteriormente te llamaremos a {} para informarte la disponibilidad durante el día.".format(citas['nombre'], citas['apellido'], citas['fecha'], citas['telefono'] )
+    msg_send(Message('Recordatorio de cita Odontologíca ', sender ='smiledr507@gmail.com', recipients = correo.split()), "Confirmación de cita" + respuesta)
+    msg_send(Message('Recordatorio de cita Odontologíca ', sender ='smiledr507@gmail.com', recipients =  'smiledr507@gmail.com'.split()), "Fecha de cita {} Llamar a {} {} al {} para confimar hora de la cita".format(citas['fecha'], citas['nombre'], citas['apellido'], citas['telefono'] ))
 
     return render_template('response.html', citas = respuesta)
 
